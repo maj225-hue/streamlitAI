@@ -5,6 +5,14 @@ import tempfile
 import io
 from docling.document_converter import DocumentConverter
 
+# Fix SQLite version issue for ChromaDB on Streamlit Cloud
+try:
+    _import_('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+except ImportError:
+    pass
+
 # --- SESSION STATE INITIALIZATION ---
 if 'search_history' not in st.session_state:
     st.session_state.search_history = []
